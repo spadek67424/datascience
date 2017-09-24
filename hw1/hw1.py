@@ -113,8 +113,14 @@ for x in range(ite):
 		p3=plt.bar(countx,draw3,width,color='orange')
 		plt.legend((p1[0],p2[0],p3[0]),('men','female','total'))
 		plt.show()
-	#elif 'p' in st:
-
+	elif 'p' in st:
+		for x in cal2:
+			countx.append(count)
+			count=count+1
+			xticks.append(x[0])
+			draw.append(x[5])
+		plt.pie(draw,labels=xticks,autopct='%1.1f%%')
+		plt.show()
 '''
 plt.plot(draw)
 plt.ylabel('some numbers')
