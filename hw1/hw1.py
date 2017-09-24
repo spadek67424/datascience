@@ -32,8 +32,24 @@ for row in cal:
 		row.insert(5,totalsmoke)  # row[5] =totalsmoke
 		row.insert(6,percent*100)
 	count=1    # omit first row
-print(cal)
 
+ite=len(sys.argv)
+ite=int(ite)-1
+
+for x in range(ite):
+	cal2=list()
+	st=arg[x+1]
+	if 'E' in st:
+		for x in range(5):
+			cal2.append(cal[x+2])
+	elif 'A' in st:
+		for x in range(3):
+			cal2.append(cal[x+8])
+	elif 'W' in st:
+		for x in range(3):
+			cal2.append(cal[x+12])
+	
+	#print(cal2)
 '''
 for a in cal:
 	print(a)
