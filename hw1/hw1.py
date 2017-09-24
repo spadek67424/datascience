@@ -30,37 +30,67 @@ for row in cal:
 		percent=float(row[1])+float(row[3])
 		percent=totalsmoke/percent
 		row.insert(5,totalsmoke)  # row[5] =totalsmoke
-		row.insert(6,percent*100)
+		row.insert(6,percent*100) # row[6] =totalper
 	count=1    # omit first row
 
 ite=len(sys.argv)
 ite=int(ite)-1
-
+xlabel=list()
 for x in range(ite):
 	cal2=list()
 	st=arg[x+1]
 	if 'E' in st:
 		for x in range(5):
 			cal2.append(cal[x+2])
+		xlabel=cal[1][0]
 	elif 'A' in st:
 		for x in range(3):
 			cal2.append(cal[x+8])
+		xlabel=cal[7][0]
 	elif 'W' in st:
 		for x in range(3):
 			cal2.append(cal[x+12])
+		xlabel=cal[11][0]
 	draw=list()
-	xlabel=list()
+	draw2=list()
+	draw3=list()
+	xticks=list()
 	countx=list()
 	count=0
+	maxy=0
 	if 'l' in st:
 		for x in cal2:
 			countx.append(count)
 			count=count+1
-			xlabel.append(x[0])
+			xticks.append(x[0])
+			if int(round(float(x[2]),0))>maxy:
+				maxy=int(round(float(x[2]),0))
+			if int(round(float(x[4]),0))>maxy:
+				maxy=int(round(x[4]),0)
+			if int(round(float(x[6]),0))>maxy:
+				maxy=int(round(float(x[6]),0))
 			draw.append(x[2])
-	plt.xticks(countx,xlabel)
-	plt.plot(draw)
-	plt.show()
+			draw2.append(x[4])
+			draw3.append(x[6])
+		#plt.tick_params(labelsize=8)
+		plt.xticks(countx,xticks,fontsize=7)
+		plt.xlabel(xlabel)
+		plt.xlim(-1,len(draw))
+		plt.ylim(0,maxy+5)
+		plt.plot(draw)
+		plt.plot(draw2,'g')
+		plt.plot(draw3,'r')
+		plt.show()
+	elif 'b' in st:
+		for x in cal2:
+			countx.append(count)
+			count=count+1
+			xticks.append(x[0])
+			draw.append(x[2])
+			draw2.append(x[4])
+			draw3.append(x[6])
+		plt.xticks(countx,xticks,fontsize=10)
+
 '''
 plt.plot(draw)
 plt.ylabel('some numbers')
