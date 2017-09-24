@@ -58,6 +58,7 @@ for x in range(ite):
 	countx=list()
 	count=0
 	maxy=0
+	width=0.2
 	if 'l' in st:
 		for x in cal2:
 			countx.append(count)
@@ -77,19 +78,42 @@ for x in range(ite):
 		plt.xlabel(xlabel)
 		plt.xlim(-1,len(draw))
 		plt.ylim(0,maxy+5)
-		plt.plot(draw)
-		plt.plot(draw2,'g')
-		plt.plot(draw3,'r')
+		p1=plt.plot(draw)
+		p2=plt.plot(draw2,'g')
+		p3=plt.plot(draw3,'r')
+		plt.legend((p1[0],p2[0],p3[0]),('men','female','total'))
 		plt.show()
+
 	elif 'b' in st:
 		for x in cal2:
 			countx.append(count)
 			count=count+1
 			xticks.append(x[0])
-			draw.append(x[2])
-			draw2.append(x[4])
-			draw3.append(x[6])
-		plt.xticks(countx,xticks,fontsize=10)
+			draw.append(float(x[2]))
+			draw2.append(float(x[4]))
+			draw3.append(float(x[6]))
+		plt.xticks(countx,xticks,fontsize=7)
+		countx2=list()
+		for c in countx:
+			x=c-width
+			countx2.append(x)
+		countx=countx2
+		p1=plt.bar(countx,draw,width)
+		countx2=list()
+		for c in countx:
+			x=c+width
+			countx2.append(x)
+		countx=countx2
+		p2=plt.bar(countx,draw2,width,color='red')
+		countx2=list()
+		for c in countx:
+			x=c+width
+			countx2.append(x)
+		countx=countx2
+		p3=plt.bar(countx,draw3,width,color='orange')
+		plt.legend((p1[0],p2[0],p3[0]),('men','female','total'))
+		plt.show()
+	#elif 'p' in st:
 
 '''
 plt.plot(draw)
