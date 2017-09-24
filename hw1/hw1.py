@@ -48,7 +48,24 @@ for x in range(ite):
 	elif 'W' in st:
 		for x in range(3):
 			cal2.append(cal[x+12])
-	
+	draw=list()
+	xlabel=list()
+	countx=list()
+	count=0
+	if 'l' in st:
+		for x in cal2:
+			countx.append(count)
+			count=count+1
+			xlabel.append(x[0])
+			draw.append(x[2])
+	plt.xticks(countx,xlabel)
+	plt.plot(draw)
+	plt.show()
+'''
+plt.plot(draw)
+plt.ylabel('some numbers')
+plt.show()
+'''
 	#print(cal2)
 '''
 for a in cal:
