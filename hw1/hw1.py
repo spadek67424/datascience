@@ -74,8 +74,11 @@ for x in range(ite):
 			if int(round(float(x[6]),0))>maxy:
 				maxy=int(round(float(x[6]),0))
 			draw.append(x[2])
+			plt.text(count-1,float(x[2])+1,round(float(x[2]),1))
 			draw2.append(x[4])
+			plt.text(count-1,float(x[4])+1,round(float(x[4]),1))
 			draw3.append(x[6])
+			plt.text(count-1,float(x[6])+1,round(float(x[6]),1))
 		#plt.tick_params(labelsize=8)
 		plt.xticks(countx,xticks,fontsize=7)
 		plt.xlabel(xlabel)
