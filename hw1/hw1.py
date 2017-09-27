@@ -59,6 +59,9 @@ for x in range(ite):
 	count=0
 	maxy=0
 	width=0.2
+	
+
+	
 	if 'l' in st:
 		for x in cal2:
 			countx.append(count)
@@ -89,6 +92,12 @@ for x in range(ite):
 			countx.append(count)
 			count=count+1
 			xticks.append(x[0])
+			if int(round(float(x[2]),0))>maxy:
+				maxy=int(round(float(x[2]),0))
+			if int(round(float(x[4]),0))>maxy:
+				maxy=int(round(x[4]),0)
+			if int(round(float(x[6]),0))>maxy:
+				maxy=int(round(float(x[6]),0))
 			draw.append(float(x[2]))
 			draw2.append(float(x[4]))
 			draw3.append(float(x[6]))
@@ -111,6 +120,7 @@ for x in range(ite):
 			countx2.append(x)
 		countx=countx2
 		p3=plt.bar(countx,draw3,width,color='orange')
+		plt.ylim(0,maxy+10)
 		plt.legend((p1[0],p2[0],p3[0]),('men','female','total'))
 		plt.show()
 	elif 'p' in st:
