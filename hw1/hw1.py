@@ -110,18 +110,30 @@ for x in range(ite):
 			x=c-width
 			countx2.append(x)
 		countx=countx2
+		dig=0
+		for c in countx:
+			plt.text(c,float(draw[dig])+1,round(float(draw[dig]),1))
+			dig=dig+1
 		p1=plt.bar(countx,draw,width)
 		countx2=list()
 		for c in countx:
 			x=c+width
 			countx2.append(x)
 		countx=countx2
+		dig=0
+		for c in countx:
+			plt.text(c,float(draw2[dig])+1,round(float(draw2[dig]),1))
+			dig=dig+1
 		p2=plt.bar(countx,draw2,width,color='red')
 		countx2=list()
 		for c in countx:
 			x=c+width
 			countx2.append(x)
 		countx=countx2
+		dig=0
+		for c in countx:
+			plt.text(c,float(draw3[dig])+1,round(float(draw3[dig]),1))
+			dig=dig+1
 		p3=plt.bar(countx,draw3,width,color='orange')
 		plt.ylim(0,maxy+10)
 		plt.legend((p1[0],p2[0],p3[0]),('men','female','total'))
