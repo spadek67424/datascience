@@ -9,7 +9,30 @@ arg=sys.argv
 for x in range(len(sys.argv)):
 	print(x)
 '''
-
+def parsedata(cal):
+	rowcount=0
+	coltitle=list()
+	st='-1'
+	cal2=[[0]]
+	calw=list()
+	cala=list()
+	cale=list()
+	for x in cal:
+		if rowcount==0:
+			coltitle.append(x)
+			rowcount=1
+		if x[1]=='':
+			st=x[0]
+		if 'Education' in st:
+			cale.append(x)
+		elif 'Average' in st:
+			cala.append(x)
+		elif 'Working' in st:
+			calw.append(x)
+	return cale,cala,calw
+	
+	
+	
 ssl._create_default_https_context = ssl._create_unverified_context
 url="https://ceiba.ntu.edu.tw/course/481ea4/hw1_data.csv"
 webpage=urllib.request.urlopen(url)
@@ -36,21 +59,21 @@ for row in cal:
 ite=len(sys.argv)
 ite=int(ite)-1
 xlabel=list()
+countline=0
+cale,cala,calw=parsedata(cal)  #parse data                         
 for x in range(ite):
 	cal2=list()
 	st=arg[x+1]
 	if 'E' in st:
-		for x in range(5):
-			cal2.append(cal[x+2])
-		xlabel=cal[1][0]
+		xlabel=cale[0][0]
+		cal2=[x for x in cale[1:]]
 	elif 'A' in st:
-		for x in range(3):
-			cal2.append(cal[x+8])
-		xlabel=cal[7][0]
+		xlabel=cala[0][0]
+		cal2=[x for x in cala[1:]]
 	elif 'W' in st:
-		for x in range(3):
-			cal2.append(cal[x+12])
-		xlabel=cal[11][0]
+		xlabel=calw[0][0]
+		cal2=[x for x in calw[1:]]
+	print(cal2)
 	draw=list()
 	draw2=list()
 	draw3=list()
@@ -84,9 +107,9 @@ for x in range(ite):
 		plt.xlabel(xlabel)
 		plt.xlim(-1,len(draw))
 		plt.ylim(0,maxy+5)
-		p1=plt.plot(draw)
-		p2=plt.plot(draw2,'g')
-		p3=plt.plot(draw3,'r')
+		p1=plt.plot(draw,'bd-')
+		p2=plt.plot(draw2,'gd-')
+		p3=plt.plot(draw3,'rd-')
 		plt.legend((p1[0],p2[0],p3[0]),('men','female','total'))
 		plt.show()
 
