@@ -1,0 +1,15 @@
+class,male population,male smoke percentage,female population,female smoke percentage
+Average monthly income,,,,
+20000 and below,3737,20.2,6382,2.5
+20001-40000,3431,33.9,4278,6.8
+40001 and above,3615,35.6,2227,5.5
+Working environment,,,,
+indoor,3739,32.4,4732,3.6
+outdoor,1773,40.9,635,9
+unemployed,1595,29.5,4114,4.7
+Education level,,,,
+elementary school and below,1596,25.3,2781,1.7
+junior high,1264,49.6,1498,10.6
+senior high,3136,28.7,3734,6.5
+university,2881,11.7,3249,1
+graduate school and above,964,4.6,659,0

@@ -29,6 +29,7 @@ def parsedata(cal):
 			cala.append(x)
 		elif 'Working' in st:
 			calw.append(x)
+	print(coltitle)
 	return cale,cala,calw
 	
 	
@@ -73,7 +74,6 @@ for x in range(ite):
 	elif 'W' in st:
 		xlabel=calw[0][0]
 		cal2=[x for x in calw[1:]]
-	print(cal2)
 	draw=list()
 	draw2=list()
 	draw3=list()
@@ -110,6 +110,8 @@ for x in range(ite):
 		p1=plt.plot(draw,'bd-')
 		p2=plt.plot(draw2,'gd-')
 		p3=plt.plot(draw3,'rd-')
+		plt.title('Smoking percentage vs '+xlabel)
+		plt.ylabel('Smoking percentage (%)')
 		plt.legend((p1[0],p2[0],p3[0]),('men','female','total'))
 		plt.show()
 
@@ -159,6 +161,9 @@ for x in range(ite):
 			dig=dig+1
 		p3=plt.bar(countx,draw3,width,color='orange')
 		plt.ylim(0,maxy+10)
+		plt.xlabel(xlabel)
+		plt.title('Smoking percentage vs '+xlabel)
+		plt.ylabel('Smoking percentage (%)')
 		plt.legend((p1[0],p2[0],p3[0]),('men','female','total'))
 		plt.show()
 	elif 'p' in st:
@@ -168,6 +173,8 @@ for x in range(ite):
 			xticks.append(x[0])
 			draw.append(x[5])
 		plt.pie(draw,labels=xticks,autopct='%1.1f%%')
+		plt.xlabel(xlabel)
+		plt.title('Proportion of different education level in smoking population')
 		plt.show()
 '''
 plt.plot(draw)
