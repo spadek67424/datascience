@@ -3,7 +3,6 @@ import sys
 import matplotlib.pyplot as plt
 import urllib.request
 import ssl
-import os
 arg=sys.argv
 '''
 for x in range(len(sys.argv)):
@@ -37,11 +36,10 @@ ssl._create_default_https_context = ssl._create_unverified_context
 url="https://ceiba.ntu.edu.tw/course/481ea4/hw1_data.csv"
 webpage=urllib.request.urlopen(url)
 html = webpage.read()
-if os.path.exists('output.csv')!=True:
-	with open('output.csv','wb') as f:
-		f.write(html)
+with open('hw1_data.csv','wb') as f:
+	f.write(html)
 cal=list()
-with open('output.csv','r') as f:
+with open('hw1_data.csv','r') as f:
 	for line in f:
 		newline=line.replace("\n","")
 		cal.append(newline.split(","))
