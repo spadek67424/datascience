@@ -29,7 +29,6 @@ def parsedata(cal):
 			cala.append(x)
 		elif 'Working' in st:
 			calw.append(x)
-	print(coltitle)
 	return cale,cala,calw
 	
 	
@@ -176,13 +175,3 @@ for x in range(ite):
 		plt.xlabel(xlabel)
 		plt.title('Proportion of different education level in smoking population')
 		plt.show()
-'''
-plt.plot(draw)
-plt.ylabel('some numbers')
-plt.show()
-'''
-	#print(cal2)
-'''
-for a in cal:
-	print(a)
-'''
