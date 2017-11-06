@@ -1,7 +1,7 @@
 import numpy as np
 import sys
 import os
-from sklearn import linear_model
+from sklearn import linear_model,tree
 
 def traindata(arg):
 	data=np.genfromtxt(arg,delimiter=",")
@@ -19,7 +19,13 @@ def regression (trainx,trainy,testx):
 	testy=logreg.predict(testx)
 	print(testy.shape)
 	print(logreg.score(trainx,trainy))
-
+	return testy
+def des(trainx,trainy,testx):
+	clf=tree.DecisionTreeClassifier()
+	clf.fit(trainx,trainy)
+	testy=clf.predict(testx)
+	print(clf.score(trainx,trainy))
+	return testy
 
 
 
@@ -29,5 +35,10 @@ if __name__ == '__main__':
 	testx=testdata(arg[3])
 	if "R" in arg[1]:
 		regression(trainx,trainy,testx)
-	
+	if "D" in arg[1]:
+		des(trainx,trainy,testx)
+	if "S" in arg[1]:
+		regression(trainx,trainy,testx)
+	if "N" in arg[1]:
+		des(trainx,trainy,testx)
 	
