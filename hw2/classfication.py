@@ -37,7 +37,7 @@ def svm(trainx,trainy,testx):
 	print("S=",sv.score(trainx,trainy))
 	return testy
 def NN(trainx,trainy,testx):
-	nn= MLPClassifier(hidden_layer_sizes=(100,100,100),max_iter=400,learning_rate_init=0.001)
+	nn= MLPClassifier(hidden_layer_sizes=(1000,1000),max_iter=400,learning_rate_init=0.001)
 	nn.fit(trainx,trainy)
 	print("N=",nn.score(trainx,trainy))
 	testy=nn.predict(testx)
