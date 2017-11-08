@@ -4,6 +4,7 @@ import os
 from sklearn import linear_model,tree
 from sklearn.svm import LinearSVC
 from sklearn.neural_network import MLPClassifier
+from sklearn.model_selection import train_test_split
 '''
 remember to tune the parameter
 '''
@@ -14,32 +15,41 @@ def traindata(arg):
 	y=data.shape[1]
 	trainx=np.delete(data,y-1,axis=1)
 	return trainx,trainy
-		
+
+def crossdata(trainx,trainy):                              
+	'''c means it's cross validation'''
+	traincx,testcx,traincy,testcy=train_test_split(trainx,trainy,test_size=0.2)
+	return traincx,testcx,traincy,testcy
 def testdata(arg):
 	testx=np.genfromtxt(arg,delimiter=",")
 	return testx
 def regression (trainx,trainy,testx):
+	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
+	print(traincy.shape)
 	logreg = linear_model.LogisticRegression(C=1e5)
-	logreg.fit(trainx,trainy)
+	logreg.fit(traincx,traincy)
+	print("R=",logreg.score(testcx,testcy))
 	testy=logreg.predict(testx)
-	print("R=",logreg.score(trainx,trainy))
 	return testy
 def des(trainx,trainy,testx):
+	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
 	clf=tree.DecisionTreeClassifier()
-	clf.fit(trainx,trainy)
+	clf.fit(traincx,traincy)
 	testy=clf.predict(testx)
-	print("D=",clf.score(trainx,trainy))
+	print("D=",clf.score(testcx,testcy))
 	return testy
 def svm(trainx,trainy,testx):
+	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
 	sv=LinearSVC()
-	sv.fit(trainx,trainy)
+	sv.fit(traincx,traincy)
 	testy=sv.predict(testx)
-	print("S=",sv.score(trainx,trainy))
+	print("S=",sv.score(testcx,testcy))
 	return testy
 def NN(trainx,trainy,testx):
-	nn= MLPClassifier(hidden_layer_sizes=(1000,1000),max_iter=400,learning_rate_init=0.001)
-	nn.fit(trainx,trainy)
-	print("N=",nn.score(trainx,trainy))
+	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
+	nn= MLPClassifier(hidden_layer_sizes=(1000,1000),max_iter=1000,learning_rate_init=0.001)
+	nn.fit(traincx,traincy)
+	print("N=",nn.score(testcx,testcy))
 	testy=nn.predict(testx)
 	return testy
 
