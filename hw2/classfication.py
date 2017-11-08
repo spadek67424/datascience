@@ -2,7 +2,7 @@ import numpy as np
 import sys
 import os
 from sklearn import linear_model,tree
-from sklearn.svm import LinearSVC
+from sklearn.svm import LinearSVC,SVC
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import train_test_split
 '''
@@ -40,7 +40,7 @@ def des(trainx,trainy,testx):
 	return testy
 def svm(trainx,trainy,testx):
 	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
-	sv=LinearSVC()
+	sv=SVC()
 	sv.fit(traincx,traincy)
 	testy=sv.predict(testx)
 	print("S=",sv.score(testcx,testcy))
