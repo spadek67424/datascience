@@ -40,8 +40,10 @@ def des(trainx,trainy,testx):
 	return testy
 def svm(trainx,trainy,testx):
 	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
-	sv=SVC()
+	sv=SVC(kernel="rbf")
+	print("fdsaf")
 	sv.fit(traincx,traincy)
+	print("fdsaf")
 	testy=sv.predict(testx)
 	print("S=",sv.score(testcx,testcy))
 	return testy
