@@ -6,6 +6,7 @@ from sklearn.svm import LinearSVC,SVC
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
+from sklearn.preprocessing import normalize,StandardScaler
 '''
 remember to tune the parameter
 '''
@@ -16,11 +17,15 @@ def traindata(arg):
 	trainy=data[:,57]
 	y=data.shape[1]
 	trainx=np.delete(data,y-1,axis=1)
+	#trainx=normalize(trainx)
 	return trainx,trainy
 
 def crossdata(trainx,trainy):                              
 	'''c means it's cross validation'''
 	traincx,testcx,traincy,testcy=train_test_split(trainx,trainy,test_size=0.2)
+	nor=StandardScaler()
+	traincx=nor.fit_transform(traincx)
+	testcx=nor.fit_transform(testcx)
 	return traincx,testcx,traincy,testcy
 def testdata(arg):
 	testx=np.genfromtxt(arg,delimiter=",")
@@ -41,7 +46,7 @@ def des(trainx,trainy,testx):
 	return testy
 def svm(trainx,trainy,testx):
 	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
-	sv=SVC(kernel="rbf")
+	sv=SVC()
 	sv.fit(traincx,traincy)
 	testy=sv.predict(testx)
 	print("S=",sv.score(testcx,testcy))
