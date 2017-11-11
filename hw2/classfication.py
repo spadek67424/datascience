@@ -41,15 +41,14 @@ def des(trainx,trainy,testx):
 def svm(trainx,trainy,testx):
 	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
 	sv=SVC(kernel="rbf")
-	print("fdsaf")
 	sv.fit(traincx,traincy)
-	print("fdsaf")
 	testy=sv.predict(testx)
 	print("S=",sv.score(testcx,testcy))
 	return testy
 def NN(trainx,trainy,testx):
 	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
-	nn= MLPClassifier(hidden_layer_sizes=(1000,1000),max_iter=1000,learning_rate_init=0.001)
+	nn= MLPClassifier(hidden_layer_sizes=(100,100,200),max_iter=2000,solver="adam",learning_rate_init=0.001)
+	''',learning_rate="adaptive")'''
 	nn.fit(traincx,traincy)
 	print("N=",nn.score(testcx,testcy))
 	testy=nn.predict(testx)
