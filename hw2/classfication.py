@@ -79,11 +79,13 @@ if __name__ == '__main__':
 	trainx,trainy=traindata(arg[2])
 	testx=testdata(arg[3])
 	if "R" in arg[1]:
-		regression(trainx,trainy,testx)
+		testy=regression(trainx,trainy,testx)
 	if "D" in arg[1]:
-		des(trainx,trainy,testx)
+		testy=des(trainx,trainy,testx)
 	if "S" in arg[1]:
-		svm(trainx,trainy,testx)
+		testy=svm(trainx,trainy,testx)
 	if "N" in arg[1]:
-		NN(trainx,trainy,testx)
+		testy=NN(trainx,trainy,testx)
+	np.savetxt("predict.csv",testy)
+
 	
