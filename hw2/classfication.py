@@ -23,14 +23,22 @@ def traindata(arg):
 def crossdata(trainx,trainy):                              
 	'''c means it's cross validation'''
 	traincx,testcx,traincy,testcy=train_test_split(trainx,trainy,test_size=0.2)
+	'''
 	nor=StandardScaler()
 	traincx=nor.fit_transform(traincx)
 	testcx=nor.fit_transform(testcx)
+	'''
 	return traincx,testcx,traincy,testcy
+def forstandard(notstand):
+	nor=StandardScaler()
+	alstand=nor.fit_transform(notstand)
+	return alstand
 def testdata(arg):
 	testx=np.genfromtxt(arg,delimiter=",")
 	return testx
 def regression (trainx,trainy,testx):
+	trainx=forstandard(trainx)
+	testx=forstandard(testx)
 	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
 	logreg = linear_model.LogisticRegression(C=1e5)
 	logreg.fit(traincx,traincy)
@@ -38,6 +46,8 @@ def regression (trainx,trainy,testx):
 	testy=logreg.predict(testx)
 	return testy
 def des(trainx,trainy,testx):
+	trainx=forstandard(trainx)
+	testx=forstandard(testx)
 	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
 	clf=tree.DecisionTreeClassifier()
 	clf.fit(traincx,traincy)
@@ -45,6 +55,8 @@ def des(trainx,trainy,testx):
 	print("D=",clf.score(testcx,testcy))
 	return testy
 def svm(trainx,trainy,testx):
+	trainx=forstandard(trainx)
+	testx=forstandard(testx)
 	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
 	sv=SVC()
 	sv.fit(traincx,traincy)
@@ -52,6 +64,8 @@ def svm(trainx,trainy,testx):
 	print("S=",sv.score(testcx,testcy))
 	return testy
 def NN(trainx,trainy,testx):
+	trainx=forstandard(trainx)
+	testx=forstandard(testx)
 	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
 	nn= MLPClassifier(hidden_layer_sizes=(100,100,200),max_iter=2000,solver="adam",learning_rate_init=0.001)
 	''',learning_rate="adaptive")'''
@@ -63,7 +77,6 @@ def NN(trainx,trainy,testx):
 if __name__ == '__main__':
 	arg=sys.argv
 	trainx,trainy=traindata(arg[2])
-
 	testx=testdata(arg[3])
 	if "R" in arg[1]:
 		regression(trainx,trainy,testx)
