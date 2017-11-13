@@ -52,6 +52,10 @@ def regression (trainx,trainy,testx):
 	'''
 	#parameter_candidates = [{'C': [1,10, 100, 1000,10000]},]
 	#clf2 = GridSearchCV(estimator=linear_model.LogisticRegression(),param_grid=parameter_candidates, n_jobs=-1,cv=5) 
+	nor=StandardScaler()
+	nor.fit(traincx)
+	traincx=nor.transform(traincx)
+	testcx=nor.transform(testcx)
 	logreg = linear_model.LogisticRegression(C=1)
 	logreg.fit(traincx,traincy)
 	#clf2.fit(trainx,trainy)
@@ -81,6 +85,10 @@ def des(trainx,trainy,testx):
 	testcx=forstandard(testcx)
 	testx=forstandard(testx)
 	'''
+	nor=StandardScaler()
+	nor.fit(traincx)
+	traincx=nor.transform(traincx)
+	testcx=nor.transform(testcx)
 	clf=tree.DecisionTreeClassifier()
 	clf.fit(traincx,traincy)
 	testy=clf.predict(testx)
@@ -95,6 +103,10 @@ def svm(trainx,trainy,testx):
 	testcx=forstandard(testcx)
 	testx=forstandard(testx)
 	'''
+	nor=StandardScaler()
+	nor.fit(traincx)
+	traincx=nor.transform(traincx)
+	testcx=nor.transform(testcx)
 	sv=SVC()
 	sv.fit(traincx,traincy)
 	testy=sv.predict(testx)
@@ -109,6 +121,10 @@ def NN(trainx,trainy,testx):
 	testcx=forstandard(testcx)
 	testx=forstandard(testx)
 	'''
+	nor=StandardScaler()
+	nor.fit(traincx)
+	traincx=nor.transform(traincx)
+	testcx=nor.transform(testcx)
 	nn= MLPClassifier(hidden_layer_sizes=(100,100,200),max_iter=2000,solver="adam",learning_rate_init=0.001)
 	''',learning_rate="adaptive")'''
 	nn.fit(traincx,traincy)
@@ -121,7 +137,7 @@ if __name__ == '__main__':
 	arg=sys.argv
 	trainx,trainy=traindata(arg[2])
 	testx=testdata(arg[3])
-	for i in range(10):
+	for i in range(1):
 		if "R" in arg[1]:
 			testy=regression(trainx,trainy,testx)
 		if "D" in arg[1]:

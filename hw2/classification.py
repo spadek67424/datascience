@@ -7,7 +7,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from sklearn.preprocessing import normalize,StandardScaler
-
+from sklearn.ensemble import RandomForestClassifier
 '''
 remember to tune the parameter
 '''
@@ -41,7 +41,7 @@ def regression (trainx,trainy,testx):
 	#traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
 	#parameter_candidates = [{'C': [1, 10, 100, 1000,10000]},]
 	#clf2 = GridSearchCV(estimator=linear_model.LogisticRegression(),param_grid=parameter_candidates, n_jobs=-1) 
-	logreg = linear_model.LogisticRegression(C=1000)
+	logreg = linear_model.LogisticRegression(C=1)
 	logreg.fit(trainx,trainy)
 	#clf2.fit(traincx,traincy)
 	#print('Best `C`:',clf2.best_estimator_.C)
@@ -65,10 +65,14 @@ def des(trainx,trainy,testx):
 	return testy
 def svm(trainx,trainy,testx):
 	#traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
-	trainx=forstandard(trainx)
+	#trainx=forstandard(trainx)
 	#traincx=forstandard(traincx)
 	#testcx=forstandard(testcx)
-	testx=forstandard(testx)
+	#testx=forstandard(testx)
+	nor=StandardScaler()
+	nor.fit(trainx)
+	trainx=nor.transform(trainx)
+	testx=nor.transform(testx)
 	sv=SVC()
 	sv.fit(trainx,trainy)
 	testy=sv.predict(testx)
@@ -76,10 +80,14 @@ def svm(trainx,trainy,testx):
 	return testy
 def NN(trainx,trainy,testx):
 	#traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
-	trainx=forstandard(trainx)
+	#trainx=forstandard(trainx)
 	#traincx=forstandard(traincx)
 	#testcx=forstandard(testcx)
-	testx=forstandard(testx)
+	#testx=forstandard(testx)
+	nor=StandardScaler()
+	nor.fit(trainx)
+	trainx=nor.transform(trainx)
+	testx=nor.transform(testx)
 	nn= MLPClassifier(hidden_layer_sizes=(100,100,200),max_iter=2000,solver="adam",learning_rate_init=0.001)
 	''',learning_rate="adaptive")'''
 	nn.fit(trainx,trainy)
@@ -94,6 +102,8 @@ if __name__ == '__main__':
 	if "R" in arg[1]:
 		testy=regression(trainx,trainy,testx)
 	if "D" in arg[1]:
+		testy=ran(trainx,trainy,testx)
+	if "T" in arg[1]:
 		testy=des(trainx,trainy,testx)
 	if "S" in arg[1]:
 		testy=svm(trainx,trainy,testx)
