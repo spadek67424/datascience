@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from sklearn.preprocessing import normalize,StandardScaler
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.decomposition import PCA
 import csv
 '''
 remember to tune the parameter
@@ -21,6 +22,7 @@ def traindata(arg):
 	data=np.genfromtxt(arg,delimiter=",")
 	data=shuffle(data)
 	trainy=data[:,57]
+	print(trainy)
 	y=data.shape[1]
 	trainx=np.delete(data,y-1,axis=1)
 	#trainx=normalize(trainx)
@@ -52,10 +54,12 @@ def regression (trainx,trainy,testx):
 	'''
 	#parameter_candidates = [{'C': [1,10, 100, 1000,10000]},]
 	#clf2 = GridSearchCV(estimator=linear_model.LogisticRegression(),param_grid=parameter_candidates, n_jobs=-1,cv=5) 
+	'''
 	nor=StandardScaler()
 	nor.fit(traincx)
 	traincx=nor.transform(traincx)
 	testcx=nor.transform(testcx)
+	'''
 	logreg = linear_model.LogisticRegression(C=1)
 	logreg.fit(traincx,traincy)
 	#clf2.fit(trainx,trainy)
@@ -125,7 +129,7 @@ def NN(trainx,trainy,testx):
 	nor.fit(traincx)
 	traincx=nor.transform(traincx)
 	testcx=nor.transform(testcx)
-	nn= MLPClassifier(hidden_layer_sizes=(100,100,200),max_iter=2000,solver="adam",learning_rate_init=0.001)
+	nn= MLPClassifier(hidden_layer_sizes=(100,100,100,200),max_iter=200,solver="adam",learning_rate_init=0.001)
 	''',learning_rate="adaptive")'''
 	nn.fit(traincx,traincy)
 	print("N=",nn.score(testcx,testcy))
@@ -137,6 +141,10 @@ if __name__ == '__main__':
 	arg=sys.argv
 	trainx,trainy=traindata(arg[2])
 	testx=testdata(arg[3])
+	pca = PCA(n_components = 16)
+	pca.fit(trainx)
+	trainx=pca.transform(trainx)
+	testx=pca.transform(testx)
 	for i in range(1):
 		if "R" in arg[1]:
 			testy=regression(trainx,trainy,testx)

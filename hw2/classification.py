@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from sklearn.preprocessing import normalize,StandardScaler
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.decomposition import PCA
 '''
 remember to tune the parameter
 '''
@@ -18,6 +19,8 @@ def traindata(arg):
 	trainy=data[:,57]
 	y=data.shape[1]
 	trainx=np.delete(data,y-1,axis=1)
+	print(trainx.shape)
+	print(trainy.shape)
 	#trainx=normalize(trainx)
 	return trainx,trainy
 
@@ -88,7 +91,7 @@ def NN(trainx,trainy,testx):
 	nor.fit(trainx)
 	trainx=nor.transform(trainx)
 	testx=nor.transform(testx)
-	nn= MLPClassifier(hidden_layer_sizes=(100,100,200),max_iter=2000,solver="adam",learning_rate_init=0.001)
+	nn= MLPClassifier(hidden_layer_sizes=(100,100,200),max_iter=1000,solver="adam",learning_rate_init=0.001)
 	''',learning_rate="adaptive")'''
 	nn.fit(trainx,trainy)
 	#print("N=",nn.score(testcx,testcy))
@@ -99,6 +102,10 @@ if __name__ == '__main__':
 	arg=sys.argv
 	trainx,trainy=traindata(arg[2])
 	testx=testdata(arg[3])
+	pca = PCA(n_components = 25)
+	pca.fit(trainx)
+	trainx=pca.transform(trainx)
+	testx=pca.transform(testx)
 	if "R" in arg[1]:
 		testy=regression(trainx,trainy,testx)
 	if "D" in arg[1]:
