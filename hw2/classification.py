@@ -7,6 +7,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from sklearn.preprocessing import normalize,StandardScaler
+
 '''
 remember to tune the parameter
 '''
@@ -37,40 +38,44 @@ def testdata(arg):
 	testx=np.genfromtxt(arg,delimiter=",")
 	return testx
 def regression (trainx,trainy,testx):
-	trainx=forstandard(trainx)
-	testx=forstandard(testx)
-	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
-	logreg = linear_model.LogisticRegression(C=1e5)
-	logreg.fit(traincx,traincy)
-	print("R=",logreg.score(testcx,testcy))
+	#traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
+	#parameter_candidates = [{'C': [1, 10, 100, 1000,10000]},]
+	#clf2 = GridSearchCV(estimator=linear_model.LogisticRegression(),param_grid=parameter_candidates, n_jobs=-1) 
+	logreg = linear_model.LogisticRegression(C=1000)
+	logreg.fit(trainx,trainy)
+	#clf2.fit(traincx,traincy)
+	#print('Best `C`:',clf2.best_estimator_.C)
+	#print("R=",logreg.score(testcx,testcy))
 	testy=logreg.predict(testx)
 	return testy
 def des(trainx,trainy,testx):
-	trainx=forstandard(trainx)
-	testx=forstandard(testx)
-	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
+	#traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
 	clf=tree.DecisionTreeClassifier()
-	clf.fit(traincx,traincy)
+	clf.fit(trainx,trainy)
 	testy=clf.predict(testx)
-	print("D=",clf.score(testcx,testcy))
+	#print("D=",clf.score(testcx,testcy))
 	return testy
 def svm(trainx,trainy,testx):
+	#traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
 	trainx=forstandard(trainx)
+	#traincx=forstandard(traincx)
+	#testcx=forstandard(testcx)
 	testx=forstandard(testx)
-	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
 	sv=SVC()
-	sv.fit(traincx,traincy)
+	sv.fit(trainx,trainy)
 	testy=sv.predict(testx)
-	print("S=",sv.score(testcx,testcy))
+	#print("S=",sv.score(testcx,testcy))
 	return testy
 def NN(trainx,trainy,testx):
+	#traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
 	trainx=forstandard(trainx)
+	#traincx=forstandard(traincx)
+	#testcx=forstandard(testcx)
 	testx=forstandard(testx)
-	traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
 	nn= MLPClassifier(hidden_layer_sizes=(100,100,200),max_iter=2000,solver="adam",learning_rate_init=0.001)
 	''',learning_rate="adaptive")'''
-	nn.fit(traincx,traincy)
-	print("N=",nn.score(testcx,testcy))
+	nn.fit(trainx,trainy)
+	#print("N=",nn.score(testcx,testcy))
 	testy=nn.predict(testx)
 	return testy
 
