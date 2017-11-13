@@ -48,6 +48,14 @@ def regression (trainx,trainy,testx):
 	#print("R=",logreg.score(testcx,testcy))
 	testy=logreg.predict(testx)
 	return testy
+def ran(trainx,trainy,testx):
+	#traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
+	clf = RandomForestClassifier()
+	clf.fit(trainx,trainy)
+	testy=clf.predict(testx)
+	#print("rd",clf.score(testcx,testcy))
+	#rd.append(clf.score(testcx,testcy))
+	return testy
 def des(trainx,trainy,testx):
 	#traincx,testcx,traincy,testcy=crossdata(trainx,trainy)
 	clf=tree.DecisionTreeClassifier()
