@@ -36,6 +36,15 @@ if __name__=='__main__':
 	dicts=unpickle(sys.argv[6])
 	testx=dicts[b'data']
 	testy=dicts[b'labels']
-	
+	model = Sequential()
+	model.add(Conv1D(64,25,input_shape=3072,activation='relu'));
+	model.add(Conv1D(128,20,activation='relu'));
+	model.add(Conv1D(192,15,activation='relu'));
+	model.add(Dense(units=1000,activation='relu'))
+	model.add(Dense(units=10,activation='relu'))
+	model.add(Dense(units=7,activation='softmax'))
+	model.compile(loss='categorical_crossentropy',optimizer='adam',metrics=['accuracy'])
+	model.fit(trainx,trainy,callbacks=callbacks_list,validation_split=0,shuffle=True,batch_size=100,epochs=50)
+	model.evaluate(testx,testy);
 	
 	#print(dat.a)
