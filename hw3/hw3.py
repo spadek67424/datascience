@@ -1,5 +1,7 @@
 from keras.models import Sequential
 from keras.layers import Dense, Activation
+from keras.layers import Conv2D,MaxPooling2D,Flatten
+from keras.utils import np_utils
 import numpy as np
 import os
 import sys
@@ -36,15 +38,33 @@ if __name__=='__main__':
 	dicts=unpickle(sys.argv[6])
 	testx=dicts[b'data']
 	testy=dicts[b'labels']
+	testy=np.array(testy)
+	trainx=trainx.reshape((60000,32,32,3))
+	trainy=trainy.reshape(60000,1)
+	trainy=np_utils.to_categorical(trainy)
+	testx=testx.reshape((10000,32,32,3))
+	testy=testy.reshape(10000,1)
+	test=np_utils.to_categorical(testy)
+	print(trainy.shape)
+	print(' ')
+	print(testx.shape)
+	print('')
+	print(testy.shape)
+
 	model = Sequential()
-	model.add(Conv1D(64,25,input_shape=3072,activation='relu'));
+	model.add(Conv2D(64,(5,5),input_shape=(32,32,3),activation='relu'));
+	model.add(MaxPooling2D((2,2),strides=2))
+	'''
 	model.add(Conv1D(128,20,activation='relu'));
 	model.add(Conv1D(192,15,activation='relu'));
 	model.add(Dense(units=1000,activation='relu'))
 	model.add(Dense(units=10,activation='relu'))
-	model.add(Dense(units=7,activation='softmax'))
+	'''
+	model.add(Flatten())
+	model.add(Dense(units=10,activation='softmax'))
+	
 	model.compile(loss='categorical_crossentropy',optimizer='adam',metrics=['accuracy'])
-	model.fit(trainx,trainy,callbacks=callbacks_list,validation_split=0,shuffle=True,batch_size=100,epochs=50)
+	model.fit(trainx,trainy,validation_split=0,shuffle=True,batch_size=100,epochs=50)
 	model.evaluate(testx,testy);
 	
 	#print(dat.a)
