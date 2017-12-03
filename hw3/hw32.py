@@ -1,9 +1,9 @@
+from __future__ import print_function
+import keras
 from keras.models import Sequential
-from keras.layers import Dense, Activation
-from keras.layers import Conv2D,MaxPooling2D,Flatten,Dropout
-from keras.optimizers import SGD
+from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.layers import Conv2D, MaxPooling2D
 from keras.utils import np_utils
-from keras.constraints import maxnorm
 import numpy as np
 import os
 import sys
@@ -79,36 +79,54 @@ if __name__=='__main__':
 	try model
 	'''
 	model = Sequential()
-	model.add(Conv2D(32, (3, 3), input_shape=(32, 32, 3), activation='relu', padding='same'))
-	model.add(Dropout(0.2))
-	model.add(Conv2D(32, (3, 3), activation='relu', padding='same'))
+	model.add(Conv2D(32, (3, 3), padding='same',
+	                 input_shape=trainx.shape[1:]))
+	model.add(Activation('relu'))
+	model.add(Conv2D(32, (3, 3)))
+	model.add(Activation('relu'))
 	model.add(MaxPooling2D(pool_size=(2, 2)))
-	model.add(Conv2D(64, (3, 3), activation='relu', padding='same'))
-	model.add(Dropout(0.2))
-	model.add(Conv2D(64, (3, 3), activation='relu', padding='same'))
-	model.add(MaxPooling2D(pool_size=(2, 2)))
-	model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
-	model.add(Dropout(0.2))
-	model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
-	model.add(MaxPooling2D(pool_size=(2, 2)))
-	model.add(Flatten())
-	model.add(Dropout(0.2))
-	model.add(Dense(1024, activation='relu', kernel_constraint=maxnorm(3)))
-	model.add(Dropout(0.2))
-	model.add(Dense(512, activation='relu', kernel_constraint=maxnorm(3)))
-	model.add(Dropout(0.2))
-	model.add(Dense(10, activation='softmax'))
+	model.add(Dropout(0.25))
 
-	epochs = 50
+	model.add(Conv2D(64, (3, 3), padding='same'))
+	model.add(Activation('relu'))
+	model.add(Conv2D(64, (3, 3)))
+	model.add(Activation('relu'))
+	model.add(MaxPooling2D(pool_size=(2, 2)))
+	model.add(Dropout(0.25))
+	model.add(Conv2D(96, (3, 3)))
+	model.add(Activation('relu'))
+	model.add(Conv2D(96, (3, 3)))
+	model.add(Activation('relu'))
+	model.add(MaxPooling2D(pool_size=(2, 2)))
+	model.add(Dropout(0.25))
+
+	model.add(Flatten())
+	model.add(Dense(512))
+	model.add(Activation('relu'))
+	model.add(Dropout(0.5))
+	model.add(Dense(10))
+	model.add(Activation('softmax'))
+
+
+	epochs = 100
 	lrate = 0.01
 	decay = lrate/epochs
-	sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
-	model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
+	opt = keras.optimizers.rmsprop(lr=0.0001, decay=1e-6)
+
+	# Let's train the model using RMSprop
+	model.compile(loss='categorical_crossentropy',
+	              optimizer=opt,
+	              metrics=['accuracy'])
 	print(model.summary())
 
-	model.fit(trainx, trainy, validation_data=(testx, testy), epochs=epochs, batch_size=32)
+	model.fit(trainx, trainy,
+              batch_size=32,
+              epochs=epochs,
+              validation_data=(testx, testy),
+              shuffle=True)
 	# Final evaluation of the model
-	scores = model.evaluate(testx, testy, verbose=0)
-	print("Accuracy: %.2f%%" % (scores[1]*100))
+	scores = model.evaluate(testx, testy, verbose=1)
+	print('Test loss:', scores[0])
+	print('Test accuracy:', scores[1])
 
 	#print(dat.a)
