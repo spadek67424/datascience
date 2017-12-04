@@ -8,6 +8,9 @@ import numpy as np
 import os
 import sys
 import pickle
+'''
+try deeper network
+'''
 def unpickle(file):
 	import pickle
 	with open(file, 'rb') as fo:
@@ -110,7 +113,7 @@ if __name__=='__main__':
 	model.add(Activation('softmax'))
 
 
-	epochs = 1
+	epochs = 200
 	lrate = 0.01
 	decay = lrate/epochs
 	opt = keras.optimizers.Adam(lr=0.0001)
