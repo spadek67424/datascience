@@ -103,15 +103,18 @@ if __name__=='__main__':
 	model.add(Flatten())
 	model.add(Dense(512))
 	model.add(Activation('relu'))
+	model.add(Dense(512))
+	model.add(Activation('relu'))
 	model.add(Dropout(0.5))
 	model.add(Dense(10))
 	model.add(Activation('softmax'))
 
 
-	epochs = 100
+	epochs = 1
 	lrate = 0.01
 	decay = lrate/epochs
-	opt = keras.optimizers.rmsprop(lr=0.0001, decay=1e-6)
+	opt = keras.optimizers.Adam(lr=0.0001)
+	#opt = keras.optimizers.rmsprop(lr=0.0001, decay=1e-6)
 
 	# Let's train the model using RMSprop
 	model.compile(loss='categorical_crossentropy',
