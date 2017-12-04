@@ -6,7 +6,7 @@ from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras.preprocessing.image import ImageDataGenerator
 from keras.utils import np_utils
-
+from keras.callbacks import History
 import numpy as np
 import os
 import sys
@@ -65,10 +65,10 @@ if __name__=='__main__':
 
 	trainx=trainx.reshape((50000,32,32,3))
 	trainy=trainy.reshape(50000,1)
-	trainy=np_utils.to_categorical(trainy)
+	trainy=np_utils.to_categorical(trainy,10)
 	testx=testx.reshape((10000,32,32,3))
 	testy=testy.reshape(10000,1)
-	testy=np_utils.to_categorical(testy)
+	testy=np_utils.to_categorical(testy,10)
 	'''
 	model = Sequential()
 	model.add(Conv2D(64,(5,5),input_shape=(32,32,3),activation='relu'));
@@ -116,6 +116,17 @@ if __name__=='__main__':
 	model.add(Dense(10))
 	model.add(Activation('softmax'))
 
+	datagen = ImageDataGenerator(
+		featurewise_center=False,  # set input mean to 0 over the dataset
+        samplewise_center=False,  # set each sample mean to 0
+        featurewise_std_normalization=False,  # divide inputs by std of the dataset
+        samplewise_std_normalization=False,  # divide each input by its std
+        zca_whitening=False,  # apply ZCA whitening
+        rotation_range=15,  # randomly rotate images in the range (degrees, 0 to 180)
+        width_shift_range=0.1,  # randomly shift images horizontally (fraction of total width)
+        height_shift_range=0.1,  # randomly shift images vertically (fraction of total height)
+        horizontal_flip=True,  # randomly flip images
+        vertical_flip=False)  # randomly flip images
 
 	epochs = 1
 	lrate = 0.01
@@ -128,15 +139,30 @@ if __name__=='__main__':
 	              optimizer=opt,
 	              metrics=['accuracy'])
 	print(model.summary())
+	datagen.fit(trainx)
+	his=model.fit_generator(datagen.flow(trainx, trainy,
+                                     batch_size=32),
+                        epochs=epochs,
+                        validation_data=(testx, testy),
+                        steps_per_epoch=50000//32)
 
+	
+
+
+	'''
 	model.fit(trainx, trainy,
               batch_size=32,
               epochs=epochs,
               validation_data=(testx, testy),
               shuffle=True)
+	'''
 	# Final evaluation of the model
 	scores = model.evaluate(testx, testy, verbose=1)
+	model.save('model.h5')
 	print('Test loss:', scores[0])
 	print('Test accuracy:', scores[1])
+	plt.plot(his.history['acc'])
+	plt.plot(his.history['val_acc'])
+	plt.savefig('one.png')
 
 	#print(dat.a)
