@@ -4,6 +4,7 @@ from keras.layers import Conv2D,MaxPooling2D,Flatten,Dropout
 from keras.optimizers import SGD
 from keras.utils import np_utils
 from keras.constraints import maxnorm
+import matplotlib.pyplot as plt
 import numpy as np
 import os
 import sys

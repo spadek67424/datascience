@@ -1,10 +1,12 @@
 from __future__ import print_function
 import keras
+import matplotlib.pyplot as plt
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras.preprocessing.image import ImageDataGenerator
 from keras.utils import np_utils
+
 import numpy as np
 import os
 import sys
